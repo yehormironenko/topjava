@@ -32,23 +32,23 @@ public class UserMealsUtil {
 
         return mealList.stream()
                 .filter(userMeal -> TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(), startTime, endTime))
-                .map(userMeal -> createUserMealWithExceed(userMeal, isExceed(caloriesSumDate, userMeal, caloriesPerDay)))
+                .map(userMeal -> createUserMealWithExceed(userMeal, caloriesSumDate.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceededByCycle
             (List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Map<LocalDate, Integer> caloriesSumDate = new TreeMap<>();
+        Map<LocalDate, Integer> caloriesSumDate = new HashMap<>();
 
         mealList.forEach(userMeal -> caloriesSumDate.put(userMeal.getDateTime().toLocalDate(),
-                caloriesSumDate.merge(userMeal.getDateTime().toLocalDate(), userMeal.getCalories(), (a, b) -> a + b)
+                caloriesSumDate.merge(userMeal.getDateTime().toLocalDate(), userMeal.getCalories(), Integer::sum)
         ));
 
         List<UserMealWithExceed> userMealWithExceed = new ArrayList<>();
         mealList.forEach(userMeal -> {
             if (TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(), startTime, endTime)) {
                 userMealWithExceed.add(
-                        createUserMealWithExceed(userMeal, isExceed(caloriesSumDate, userMeal, caloriesPerDay)
+                        createUserMealWithExceed(userMeal, caloriesSumDate.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay
                         ));
             }
         });
@@ -59,7 +59,4 @@ public class UserMealsUtil {
         return new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), exceed);
     }
 
-    private static boolean isExceed(Map<LocalDate, Integer> caloriesSumDate, UserMeal userMeal, int caloriesPerDay) {
-        return caloriesSumDate.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay;
-    }
 }
