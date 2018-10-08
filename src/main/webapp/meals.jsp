@@ -7,12 +7,12 @@
 <head>
     <title>Meals</title>
     <style type="text/css">
-        td.col1 {
-            background: red;
+        .col1 {
+            color: red;
         }
 
-        td.col2 {
-            background: green;
+        .col2 {
+            color: green;
         }
     </style>
 </head>
@@ -25,14 +25,13 @@
         <th>Description</th>
         <th>Calories</th>
     </tr>
-    <tr>
-        <c:forEach items="${meals}" var="meal">
+    <c:forEach items="${meals}" var="meal">
         <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealWithExceed"/>
-        <td class="${meal.exceed ? 'col2': 'col1'}"><p>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</p>
-        </td>
-        <td class="${meal.exceed ? 'col2': 'col1'}"><p>${meal.description}</p></td>
-        <td class="${meal.exceed ? 'col2': 'col1'}"><p>${meal.calories}</p></td>
-    </tr>
+        <tr class="${meal.exceed ? 'col2' : 'col1'}">
+            <td>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</td>
+            <td><p>${meal.description}</p></td>
+            <td><p>${meal.calories}</p></td>
+        </tr>
     </c:forEach>
 </table>
 </body>
