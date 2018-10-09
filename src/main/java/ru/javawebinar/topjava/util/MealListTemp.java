@@ -1,23 +1,22 @@
-package ru.javawebinar.topjava;
+package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
-import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.repository.Repository;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
 
-public class MealList {
+public class MealListTemp {
 
-    public static final Meal M1;
-    public static final Meal M2;
-    public static final Meal M3;
-    public static final Meal M4;
-    public static final Meal M5;
-    public static final Meal M6;
+    private static final Meal M1;
+    private static final Meal M2;
+    private static final Meal M3;
+    private static final Meal M4;
+    private static final Meal M5;
+    private static final Meal M6;
 
     static {
         M1 = new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500);
@@ -29,9 +28,17 @@ public class MealList {
 
     }
 
-    public static List<MealWithExceed> exceedsList() {
-        List<Meal> meals = Arrays.asList(M1, M2, M3, M4, M5, M6);
+    public static List<MealWithExceed> exceedsList(List<Meal> meals) {
         return MealsUtil.getFilteredWithExceeded(meals, LocalTime.of(0, 0), LocalTime.of(23, 59), 2000);
-
     }
+
+    public static void Initializer(Repository repository) {
+        repository.save(M1);
+        repository.save(M2);
+        repository.save(M3);
+        repository.save(M4);
+        repository.save(M5);
+        repository.save(M6);
+    }
+
 }
