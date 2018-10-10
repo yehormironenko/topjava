@@ -15,13 +15,13 @@ public class MealMemoryRepository implements Repository {
     private AtomicInteger newID = new AtomicInteger();
 
     @Override
-    public void save(Meal meal) {
+    public Meal save(Meal meal) {
         if (checkId(meal)) {
             meal.setId(newID.incrementAndGet());
             repository.put(meal.getId(), meal);
-        } else {
-            repository.put(meal.getId(), meal);
+            return meal;
         }
+        return repository.computeIfPresent(meal.getId(), (id, meal1) -> meal);
     }
 
     @Override
