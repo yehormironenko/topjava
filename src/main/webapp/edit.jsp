@@ -7,10 +7,12 @@
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
-    <h1>Edit meal</h1>
+    <h1>Meal</h1>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="id" value="${meal.id}">
+        <c:if test="${param.action} == 'add'">
+            <input type="hidden" name="id" value="${meal.id}">
+        </c:if>
         <dl>
             <dt>DateTime: <input type="datetime-local" value="${meal.dateTime}" name="dateTime" required></dt>
         </dl>

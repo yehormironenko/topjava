@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Objects;
 
 
@@ -34,16 +35,9 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
-        Meal m;
-        if (id != null) {
-            m = new Meal(Integer.parseInt(id), LocalDateTime.parse(request.getParameter("dateTime")),
-                    request.getParameter("description"),
-                    Integer.parseInt(request.getParameter("calories")));
-        } else {
-            m = new Meal(LocalDateTime.parse(request.getParameter("dateTime")),
-                    request.getParameter("description"),
-                    Integer.parseInt(request.getParameter("calories")));
-        }
+        Meal m = new Meal(id == null ? null : Integer.parseInt(id), LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"),
+                Integer.parseInt(request.getParameter("calories")));
         String logStr = "{id:" + m.getId() + ", date:" + m.getDateTime() + ", description:" + m.getDescription() + ", calories:" + m.getCalories() + " }";
         log.info(id == null ? "Create:" + logStr : "Update:" + logStr);
         repository.save(m);
@@ -51,7 +45,8 @@ public class MealServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         log.debug("redirect to meals");
         String action = request.getParameter("action");
         if (action == null) {
@@ -67,14 +62,15 @@ public class MealServlet extends HttpServlet {
                 response.sendRedirect("meals");
                 break;
             case "edit":
-                Meal m = repository.get(getId(request));
+            case "add":
+                Meal m = action.equals("add") ? new Meal(LocalDateTime.of(0000, Month.JANUARY, 1, 0, 0), "", 0) : repository.get(getId(request));
                 request.setAttribute("meal", m);
                 log.debug("redirect to edit");
                 request.getRequestDispatcher("/edit.jsp").forward(request, response);
                 break;
             default:
-                log.error("Action " + action + " is illegal");
-                throw new IllegalArgumentException("Action " + action + " is illegal");
+                request.setAttribute("meals", MealListTemp.exceedsList(repository.getAll()));
+                request.getRequestDispatcher("meals.jsp").forward(request, response);
         }
     }
 

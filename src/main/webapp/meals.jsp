@@ -19,6 +19,7 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <h1>Meals</h1>
+<a href="meals?action=add">Add meal</a><br><br>
 <table border="2" cellpadding="8" cellspacing="0">
     <tr>
         <th>id</th>
@@ -40,17 +41,5 @@
         </tr>
     </c:forEach>
 </table>
-<br>
-<form method="post" action="meals" enctype="application/x-www-form-urlencoded">
-    <p>DateTime:
-        <input type="datetime-local" name="dateTime" required>
-
-        Description:
-        <input type="text" name="description" required>
-        Calories:
-        <input type="number" name="calories" required> &nbsp
-        <button type="submit">Add meal</button>
-    </p>
-</form>
 </body>
 </html>
