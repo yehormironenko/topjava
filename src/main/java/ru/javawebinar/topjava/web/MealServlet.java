@@ -49,12 +49,8 @@ public class MealServlet extends HttpServlet {
             ServletException, IOException {
         log.debug("redirect to meals");
         String action = request.getParameter("action");
-        if (action == null) {
-            request.setAttribute("meals", MealListTemp.exceedsList(repository.getAll()));
-            request.getRequestDispatcher("meals.jsp").forward(request, response);
-        }
 
-        switch (action) {
+        switch (action == null ? action = "default" : action) {
             case "delete":
                 int id = getId(request);
                 log.info("Delete: {id:" + repository.get(id).getId() + ", date:" + repository.get(id).getDateTime() + ", description:" + repository.get(id).getDescription() + ", calories:" + repository.get(id).getCalories() + " }");
@@ -68,6 +64,7 @@ public class MealServlet extends HttpServlet {
                 log.debug("redirect to edit");
                 request.getRequestDispatcher("/edit.jsp").forward(request, response);
                 break;
+            case "default":
             default:
                 request.setAttribute("meals", MealListTemp.exceedsList(repository.getAll()));
                 request.getRequestDispatcher("meals.jsp").forward(request, response);
