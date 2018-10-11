@@ -16,7 +16,7 @@ public class MealMemoryRepository implements Repository {
 
     @Override
     public Meal save(Meal meal) {
-        if (checkId(meal)) {
+        if (hasId(meal)) {
             meal.setId(newID.incrementAndGet());
             repository.put(meal.getId(), meal);
             return meal;
@@ -40,7 +40,7 @@ public class MealMemoryRepository implements Repository {
     }
 
 
-    private boolean checkId(Meal meal) {
+    private boolean hasId(Meal meal) {
         return meal.getId() == null;
     }
 
