@@ -62,6 +62,11 @@ public class MealServlet extends HttpServlet {
                 mealRestController.delete(id);
                 response.sendRedirect("meals");
                 break;
+            case "1":
+            case "2":
+                SecurityUtil.setUserid("1".equals(action) ? 1 : 2);
+                request.setAttribute("meals", mealRestController.getAll());
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
