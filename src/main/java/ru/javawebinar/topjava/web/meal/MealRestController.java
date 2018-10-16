@@ -10,6 +10,9 @@ import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -56,4 +59,22 @@ public class MealRestController {
         log.info("getAll, user {}", userId);
         return MealsUtil.getWithExceeded(service.getAll(userId), SecurityUtil.authUserCaloriesPerDay());
     }
+
+    public List<MealWithExceed> getWithFilterByTime(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        int userId = SecurityUtil.authUserId();
+        log.info("getWithFilterByTime date:{} - {}, time:{} - {}, user{}", startDate, endDate, startTime, endTime, userId);
+
+        List<Meal> mealByDate = (List<Meal>) service.getWithFilterByTime(
+                LocalDateTime.of(
+                        startDate == null ? LocalDate.of(1, 1, 1) : startDate, LocalTime.MIN),
+                LocalDateTime.of(
+                        endDate == null ? LocalDate.of(3000, 1, 1) : endDate, LocalTime.MAX)
+                , userId);
+
+        return MealsUtil.getFilteredWithExceeded(mealByDate, SecurityUtil.authUserCaloriesPerDay(),
+                startTime == null ? LocalTime.MIN : startTime,
+                endTime == null ? LocalTime.MAX : endTime
+        );
+    }
+
 }

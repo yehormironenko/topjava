@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Service
@@ -44,5 +45,10 @@ public class MealServiceImpl implements MealService {
     @Override
     public Collection<Meal> getAll(int userId) {
         return repository.getAll(userId);
+    }
+
+    @Override
+    public Collection<Meal> getWithFilterByTime(LocalDateTime startTime, LocalDateTime endTime, int userId) {
+        return repository.getWithFilterByTime(startTime, endTime, userId);
     }
 }
