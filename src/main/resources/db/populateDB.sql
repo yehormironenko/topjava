@@ -12,5 +12,9 @@ INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_ADMIN', 100001);
 
 INSERT INTO meal (user_id, date, description, calories) VALUES
-(100000,'2019-02-22 22:43', 'dinner', 1000),
-(100001, '2019-02-22 12:43','lunch', 760);
+(100000,'2019-02-22 15:00', 'Breakfast', 500),
+(100000,'2019-02-23 10:00', 'Lunch', 1000),
+(100000,'2019-02-23 20:00', 'Dinner', 510),
+(100001, '2019-02-22 10:00','Breakfast', 500),
+(100001, '2019-02-22 13:00','Lunch', 1000),
+(100001, '2019-02-23 21:00','Dinner', 500);
