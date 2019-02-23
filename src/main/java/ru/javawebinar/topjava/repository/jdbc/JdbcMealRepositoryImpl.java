@@ -29,7 +29,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     public JdbcMealRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate).withTableName("meal");
+        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate).withTableName("meal").usingGeneratedKeyColumns("id");
     }
 
     @Override
