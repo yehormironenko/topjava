@@ -37,7 +37,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("user_id", userId)
-                .addValue("date", meal.getDateTime())
+                .addValue("datetime", meal.getDateTime())
                 .addValue("description", meal.getDescription())
                 .addValue("calories", meal.getCalories());
 
@@ -45,11 +45,10 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             Number newKey = insertMeal.executeAndReturnKey(map);
             meal.setId(newKey.intValue());
         } else if (namedParameterJdbcTemplate.update(
-                "UPDATE meal SET date=:date, description=:description, " +
+                "UPDATE meal SET datetime=:datetime, description=:description, " +
                         "calories=:calories WHERE user_id=:user_id and id=:id", map) == 0) {
             return null;
         }
-
         return meal;
     }
 
@@ -59,7 +58,6 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    //TODO
     public Meal get(int id, int userId) {
         List<Meal> meals =
                 jdbcTemplate.query("SELECT * FROM meal WHERE id =? and user_id = ?", ROW_MAPPER, id, userId);
@@ -69,13 +67,13 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         return
-                jdbcTemplate.query("SELECT * FROM meal WHERE user_id = ? ORDER BY date DESC", ROW_MAPPER, userId);
+                jdbcTemplate.query("SELECT * FROM meal WHERE user_id = ? ORDER BY datetime DESC", ROW_MAPPER, userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return
-                jdbcTemplate.query("SELECT * FROM meal WHERE user_id = ?  AND date BETWEEN ? AND ?  ORDER BY date DESC"
+                jdbcTemplate.query("SELECT * FROM meal WHERE user_id = ?  AND datetime BETWEEN ? AND ?  ORDER BY datetime DESC"
                         , ROW_MAPPER, userId, startDate, endDate);
     }
 }
