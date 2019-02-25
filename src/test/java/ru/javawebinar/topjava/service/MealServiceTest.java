@@ -66,7 +66,7 @@ public class MealServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deletedNotFound() throws Exception {
-        service.delete(1, 1);
+        service.delete(MEAL_ADMIN_ID + 4, MEAL_USER_ID);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class MealServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
-        Meal meal = service.get(MEAL_ADMIN_ID + 4, MEAL_USER_ID);
+        service.get(MEAL_ADMIN_ID + 4, MEAL_USER_ID);
     }
 
     @Test
