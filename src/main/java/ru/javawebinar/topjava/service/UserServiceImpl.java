@@ -48,11 +48,17 @@ public class UserServiceImpl implements UserService {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
+    @Override
+    public User getWithMeal(int id) {
+        return checkNotFoundWithId(repository.getWithMeal(id), id);
+    }
+
     @Cacheable("users")
     @Override
     public List<User> getAll() {
         return repository.getAll();
     }
+
 
     @CacheEvict(value = "users", allEntries = true)
     @Override
