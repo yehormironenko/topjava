@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.Profiles;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -11,15 +12,15 @@ import java.time.LocalDateTime;
 
 /*Version 2.4.1 for Java 8 supports java.time classes in JDBC and adds many enhancements.*/
 @Repository
-@Profile("hsqldb")
-public class JdbcHsqldbMealRepositoryImpl extends AbstractJdbcMealRepositoryImpl {
+@Profile(Profiles.HSQL_DB)
+public class JdbcHsqldbMealRepositoryImpl extends AbstractJdbcMealRepositoryImpl<Timestamp> {
 
     protected JdbcHsqldbMealRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
     @Override
-    public Object dateTimeForDb(LocalDateTime localDateTime) {
+    public Timestamp dateTimeForDb(LocalDateTime localDateTime) {
         return Timestamp.valueOf(localDateTime);
     }
 }
