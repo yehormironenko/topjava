@@ -8,6 +8,8 @@ import org.junit.rules.ExternalResource;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -40,6 +42,15 @@ abstract public class AbstractServiceTest {
         // needed only for java.util.logging (postgres driver)
         SLF4JBridgeHandler.install();
     }
+
+    @Autowired
+    private Environment environment;
+
+   /* protected boolean isJDBS() {
+        return this.getClass().getCanonicalName().contains("jdbc");
+    }*/
+
+    protected  boolean isJPA() {return environment.acceptsProfiles("datajpa","jpa");};
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
     public <T extends Throwable> void validateRootCause(Runnable runnable, Class<T> exceptionClass) {
