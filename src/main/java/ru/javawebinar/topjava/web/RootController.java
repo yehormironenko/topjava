@@ -6,11 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class RootController {
+
+    @Autowired
+    private MealRestController mealController;
+
     @Autowired
     private UserService service;
 
@@ -30,5 +35,11 @@ public class RootController {
         int userId = Integer.valueOf(request.getParameter("userId"));
         SecurityUtil.setAuthUserId(userId);
         return "redirect:meals";
+    }
+
+    @GetMapping("meals")
+    public String meals(Model model) {
+        model.addAttribute("meals", mealController.getAll());
+        return "meals";
     }
 }
