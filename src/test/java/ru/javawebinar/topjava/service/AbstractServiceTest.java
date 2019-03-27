@@ -46,10 +46,6 @@ abstract public class AbstractServiceTest {
     @Autowired
     private Environment environment;
 
-   /* protected boolean isJDBS() {
-        return this.getClass().getCanonicalName().contains("jdbc");
-    }*/
-
     protected  boolean isJPA() {return environment.acceptsProfiles("datajpa","jpa");};
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
