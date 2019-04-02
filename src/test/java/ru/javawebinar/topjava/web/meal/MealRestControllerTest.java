@@ -80,13 +80,13 @@ public class MealRestControllerTest extends AbstractControllerTest {
     @Test
     void testGetBetween() throws Exception {
         mockMvc.perform(get(REST_URL + "filter")
-                .param("startDateTime", "2015-05-30T09:00")
-                .param("endDateTime", "2015-05-30T11:00"))
-            /*    .param("startTime", "09:00")
-                .param("endTime", "11:00"))*/
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().string(MEAL_WITH_EXCEED_FILTER));
+                .param("startDate", "2015-05-30")
+                .param("endDate", "2015-05-30")
+                .param("startTime", "09:00")
+                .param("endTime", "11:00"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(MEAL_WITH_EXCEED_FILTER));
     }
 
 }
