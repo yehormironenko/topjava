@@ -77,16 +77,16 @@ public class MealRestControllerTest extends AbstractControllerTest {
         Meal meal = getCreated();
         String newMealJson = JsonUtil.writeValue(meal);
 
-        mockMvc.perform(post(REST_URL + MEAL1_ID)
+        mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(newMealJson))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        meal.setId(START_SEQ + 10);
+        meal.setId(START_SEQ + 11);
         List<Meal> MEALS_UPD = Stream.concat(Stream.of(meal), MEALS.stream()).collect(Collectors.toList());
 
-        assertMatch(mealService.get(START_SEQ + 10, START_SEQ), meal);
+        assertMatch(mealService.get(START_SEQ + 11, START_SEQ), meal);
         assertMatch(mealService.getAll(START_SEQ), MEALS_UPD);
     }
 
