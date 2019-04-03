@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.Month;
 import java.util.List;
@@ -24,11 +25,6 @@ public class MealTestData {
 
     public static final List<Meal> MEALS = List.of(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
 
-
-    public static final String MEALS_WITH_EXCESS_JSON   = "[{\"id\":100007,\"dateTime\":\"2015-05-31T20:00:00\",\"description\":\"Ужин\",\"calories\":510,\"excess\":true},{\"id\":100006,\"dateTime\":\"2015-05-31T13:00:00\",\"description\":\"Обед\",\"calories\":1000,\"excess\":true},{\"id\":100005,\"dateTime\":\"2015-05-31T10:00:00\",\"description\":\"Завтрак\",\"calories\":500,\"excess\":true},{\"id\":100004,\"dateTime\":\"2015-05-30T20:00:00\",\"description\":\"Ужин\",\"calories\":500,\"excess\":false},{\"id\":100003,\"dateTime\":\"2015-05-30T13:00:00\",\"description\":\"Обед\",\"calories\":1000,\"excess\":false},{\"id\":100002,\"dateTime\":\"2015-05-30T10:00:00\",\"description\":\"Завтрак\",\"calories\":500,\"excess\":false}]";
-    public static final String MEAL_WITH_EXCEED_FILTER  = "[{\"id\":100002,\"dateTime\":\"2015-05-30T10:00:00\",\"description\":\"Завтрак\",\"calories\":500,\"excess\":false}]";
-
-
     public static Meal getCreated() {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);
     }
@@ -36,6 +32,7 @@ public class MealTestData {
     public static Meal getUpdated() {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "Обновленный завтрак", 200);
     }
+
 
     public static void assertMatch(Meal actual, Meal expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "user");
@@ -48,4 +45,17 @@ public class MealTestData {
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
     }
+
+    public static void assertMatchTo(Iterable<MealTo> actual, MealTo... expected) {
+        assertThat(actual).usingDefaultComparator().isEqualTo(expected);
+    }
+
+    public static void assertMatchTo(Iterable<MealTo> actual, Iterable<MealTo> expected) {
+        assertThat(actual).usingDefaultComparator().isEqualTo(expected);
+    }
+
+    public static void assertMatchTo(MealTo actual, MealTo expected) {
+        assertThat(actual).usingDefaultComparator().isEqualTo(expected);
+    }
+
 }
