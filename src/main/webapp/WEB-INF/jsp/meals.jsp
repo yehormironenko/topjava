@@ -40,21 +40,30 @@
                         <input type="time" class="form-control" name="startTime" value="${param.startTime}">
                     </div>
                 </div>
+
                 <div class="row mt-2">
                     <span class="input-group-text" style="width:120px;" id="endTime"><spring:message
                             code="meal.endTime"/></span>
                     <div class="col-5 ">
                         <input type="time" class="form-control" name="endTime" value="${param.endTime}">
                     </div>
-                    <button class="btn btn-primary mt-2" onclick="filter()">
-                        <span class="fa fa-filter"></span>
-                        <spring:message code="meal.filter"/>
-                    </button>
                 </div>
             </div>
         </form>
+
+        <div class="row mt-2">
+            <button class="btn btn-primary mt-2" onclick="filteredData()">
+                <span class="fa fa-filter"></span>
+                <spring:message code="meal.filter"/>
+            </button>
+            <div class="col-5">
+                <button class="btn btn-primary mt-2" onclick="resetFilter()">
+                    <span class="fa fa-close"></span>
+                    <spring:message code="meal.reset"/>
+                </button>
+            </div>
+        </div>
         <hr>
-        <%--<a href="meals/create"><spring:message code="meal.add"/></a>--%>
         <div class="row">
             <button class="btn btn-primary mt-2" onclick="add()">
                 <span class="fa fa-plus"></span>
@@ -87,7 +96,8 @@
                         <td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>
                         --%>
                     <td><a><span class="fa fa-pencil" style="color: black"></span></a></td>
-                    <td><a onclick="deleteRow(${meal.id})"><span class="fa fa-remove" style="color: black"></span></a></td>
+                    <td><a onclick="deleteRow(${meal.id})"><span class="fa fa-remove" style="color: black"></span></a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
