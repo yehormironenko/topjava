@@ -70,8 +70,7 @@ $(function () {
                         "defaultContent": "",
                         "render": renderDeleteBtn
                     }
-                ],
-                "order": [
+                ],                "order": [
                     [
                         0,
                         "asc"
